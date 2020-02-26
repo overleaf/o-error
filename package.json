@@ -1,6 +1,6 @@
 {
   "name": "overleaf-error-type",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Make custom error types that pass `instanceof` checks, have stack traces and support custom messages and properties.",
   "main": "index.js",
   "scripts": {
