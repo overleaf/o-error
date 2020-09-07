@@ -149,6 +149,12 @@ describe('OError.tag', function () {
       expect.fail('should have yielded an error')
     })
   })
+
+  it('does nothing on an undefined or null error', function () {
+    expect(OError.tag(undefined)).to.be.undefined
+    expect(OError.tag(null)).to.be.null
+    expect(OError.tag(null, 'ignored message', { info: 1 })).to.be.null
+  })
 })
 
 describe('OError.getFullInfo', function () {

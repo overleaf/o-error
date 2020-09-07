@@ -390,10 +390,35 @@ return it.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| error | <code>Error</code> | the error to tag |
+| error | <code>Error</code> \| <code>null</code> \| <code>undefined</code> | the error to tag (no-op if missing) |
 | [message] | <code>string</code> | message with which to tag `error` |
 | [info] | <code>Object</code> | extra data with wich to tag `error` |
 
+**Example** *(An error in a callback)*  
+```js
+function findUser(name, callback) {
+  fs.readFile('/etc/passwd', (err, data) => {
+    if (err) return callback(OError.tag(err, 'failed to read passwd'))
+    // ...
+  })
+}
+```
+**Example** *(A possible error in a callback)*  
+```js
+function cleanup(callback) {
+  fs.unlink('/tmp/scratch', (err) => callback(OError.tag(err)))
+}
+```
+**Example** *(An error with async/await)*  
+```js
+async function cleanup() {
+  try {
+    await fs.promises.unlink('/tmp/scratch')
+  } catch (err) {
+    throw OError.tag(err, 'failed to remove scratch file')
+  }
+}
+```
 <a name="OError.getFullInfo"></a>
 
 ### OError.getFullInfo(error) ⇒ <code>Object</code>

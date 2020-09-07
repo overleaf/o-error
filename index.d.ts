@@ -8,7 +8,29 @@ declare class OError extends Error {
      * Tag debugging information onto any error (whether an OError or not) and
      * return it.
      *
-     * @param {Error} error the error to tag
+     * @example <caption>An error in a callback</caption>
+     * function findUser(name, callback) {
+     *   fs.readFile('/etc/passwd', (err, data) => {
+     *     if (err) return callback(OError.tag(err, 'failed to read passwd'))
+     *     // ...
+     *   })
+     * }
+     *
+     * @example <caption>A possible error in a callback</caption>
+     * function cleanup(callback) {
+     *   fs.unlink('/tmp/scratch', (err) => callback(OError.tag(err)))
+     * }
+     *
+     * @example <caption>An error with async/await</caption>
+     * async function cleanup() {
+     *   try {
+     *     await fs.promises.unlink('/tmp/scratch')
+     *   } catch (err) {
+     *     throw OError.tag(err, 'failed to remove scratch file')
+     *   }
+     * }
+     *
+     * @param {Error | null | undefined} error the error to tag (no-op if missing)
      * @param {string} [message] message with which to tag `error`
      * @param {Object} [info] extra data with wich to tag `error`
      * @return {Error} the modified `error` argument
