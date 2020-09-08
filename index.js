@@ -13,15 +13,14 @@ class OError extends Error {
     this.name = this.constructor.name
     if (info) this.info = info
     if (cause) this.cause = cause
-
-    /** @private @type {Array<TaggedError>} */
+    /** @private @type {Array<TaggedError> | undefined} */
     this._oErrorTags // eslint-disable-line
   }
 
   /**
    * Set the extra info object for this error.
    *
-   * @param {Object | null | undefined} info extra data to attach to the error
+   * @param {Object} info extra data to attach to the error
    * @return {this}
    */
   withInfo(info) {
@@ -69,7 +68,7 @@ class OError extends Error {
    * @param {Error | null | undefined} error the error to tag (no-op if missing)
    * @param {string} [message] message with which to tag `error`
    * @param {Object} [info] extra data with wich to tag `error`
-   * @return {Error} the modified `error` argument
+   * @return {Error | null | undefined} the modified `error` argument
    */
   static tag(error, message, info) {
     if (!error) return error
@@ -84,7 +83,7 @@ class OError extends Error {
       tag = /** @type TaggedError */ ({ name: 'TaggedError', message, info })
       Error.captureStackTrace(tag, OError.tag)
     } else {
-      tag = new TaggedError(message, info)
+      tag = new TaggedError(message || '', info)
     }
 
     oError._oErrorTags.push(tag)
@@ -130,7 +129,7 @@ class OError extends Error {
 
     const oError = /** @type{OError} */ (error)
 
-    let stack = oError.stack
+    let stack = oError.stack || '(no stack)'
 
     if (Array.isArray(oError._oErrorTags) && oError._oErrorTags.length) {
       stack += `\n${oError._oErrorTags.map((tag) => tag.stack).join('\n')}`
@@ -153,6 +152,11 @@ class OError extends Error {
  */
 class TaggedError extends OError {}
 
+/**
+ * @private
+ * @param {string} string
+ * @return {string}
+ */
 function indent(string) {
   return string.replace(/^/gm, '    ')
 }

@@ -33,7 +33,7 @@ declare class OError extends Error {
      * @param {Error | null | undefined} error the error to tag (no-op if missing)
      * @param {string} [message] message with which to tag `error`
      * @param {Object} [info] extra data with wich to tag `error`
-     * @return {Error} the modified `error` argument
+     * @return {Error | null | undefined} the modified `error` argument
      */
     static tag(error: Error, message?: string, info?: any): Error;
     /**
@@ -61,12 +61,12 @@ declare class OError extends Error {
     constructor(message: string, info?: any, cause?: Error);
     info: any;
     cause: Error;
-    /** @private @type {Array<TaggedError>} */
+    /** @private @type {Array<TaggedError> | undefined} */
     private _oErrorTags;
     /**
      * Set the extra info object for this error.
      *
-     * @param {Object | null | undefined} info extra data to attach to the error
+     * @param {Object} info extra data to attach to the error
      * @return {this}
      */
     withInfo(info: any): OError;

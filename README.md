@@ -28,7 +28,7 @@ Light-weight helpers for handling JavaScript Errors in node.js and the browser.
   * [new OError(message, [info], [cause])](#new-oerrormessage-info-cause)
   * [oError.withInfo(info) ⇒ this](#oerrorwithinfoinfo--this)
   * [oError.withCause(cause) ⇒ this](#oerrorwithcausecause--this)
-  * [OError.tag(error, [message], [info]) ⇒ Error](#oerrortagerror-message-info--error)
+  * [OError.tag(error, [message], [info]) ⇒ Error \| null \| undefined](#oerrortagerror-message-info--error--null--undefined)
   * [OError.getFullInfo(error) ⇒ Object](#oerrorgetfullinfoerror--object)
   * [OError.getFullStack(error) ⇒ string](#oerrorgetfullstackerror--string)
 - [References](#references)
@@ -343,7 +343,7 @@ caused by:
         * [.withInfo(info)](#OError+withInfo) ⇒ <code>this</code>
         * [.withCause(cause)](#OError+withCause) ⇒ <code>this</code>
     * _static_
-        * [.tag(error, [message], [info])](#OError.tag) ⇒ <code>Error</code>
+        * [.tag(error, [message], [info])](#OError.tag) ⇒ <code>Error</code> \| <code>null</code> \| <code>undefined</code>
         * [.getFullInfo(error)](#OError.getFullInfo) ⇒ <code>Object</code>
         * [.getFullStack(error)](#OError.getFullStack) ⇒ <code>string</code>
 
@@ -366,7 +366,7 @@ Set the extra info object for this error.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| info | <code>Object</code> \| <code>null</code> \| <code>undefined</code> | extra data to attach to the error |
+| info | <code>Object</code> | extra data to attach to the error |
 
 <a name="OError+withCause"></a>
 
@@ -381,12 +381,12 @@ Wrap the given error, which caused this error.
 
 <a name="OError.tag"></a>
 
-### OError.tag(error, [message], [info]) ⇒ <code>Error</code>
+### OError.tag(error, [message], [info]) ⇒ <code>Error</code> \| <code>null</code> \| <code>undefined</code>
 Tag debugging information onto any error (whether an OError or not) and
 return it.
 
 **Kind**: static method of [<code>OError</code>](#OError)  
-**Returns**: <code>Error</code> - the modified `error` argument  
+**Returns**: <code>Error</code> \| <code>null</code> \| <code>undefined</code> - the modified `error` argument  
 
 | Param | Type | Description |
 | --- | --- | --- |
