@@ -150,10 +150,40 @@ describe('OError.tag', function () {
     })
   })
 
+  it('is not included in the stack trace if using capture', function () {
+    if (!Error.captureStackTrace) return
+    const err = new Error('test error')
+    OError.tag(err, 'test message')
+    const stack = OError.getFullStack(err)
+    expect(stack).to.match(/TaggedError: test message\n\s+at/)
+    expect(stack).to.not.match(/TaggedError: test message\n\s+at _tag/)
+  })
+})
+
+describe('OError.tagIfExists', function () {
+  it('tags an error', function () {
+    const err = new Error('test error')
+    expect(OError.tagIfExists(err, 'test message', { a: 1 })).to.eql(err)
+    expectFullStackWithoutStackFramesToEqual(err, [
+      'Error: test error',
+      'TaggedError: test message',
+    ])
+    expect(OError.getFullInfo(err)).to.eql({ a: 1 })
+  })
+
   it('does nothing on an undefined or null error', function () {
-    expect(OError.tag(undefined)).to.be.undefined
-    expect(OError.tag(null)).to.be.null
-    expect(OError.tag(null, 'ignored message', { info: 1 })).to.be.null
+    expect(OError.tagIfExists(undefined)).to.be.undefined
+    expect(OError.tagIfExists(null)).to.be.null
+    expect(OError.tagIfExists(null, 'ignored message', { info: 1 })).to.be.null
+  })
+
+  it('is not included in the stack trace if using capture', function () {
+    if (!Error.captureStackTrace) return
+    const err = new Error('test error')
+    OError.tagIfExists(err, 'test message')
+    const stack = OError.getFullStack(err)
+    expect(stack).to.match(/TaggedError: test message\n\s+at/)
+    expect(stack).to.not.match(/TaggedError: test message\n\s+at _tag/)
   })
 })
 

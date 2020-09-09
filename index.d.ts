@@ -16,11 +16,6 @@ declare class OError extends Error {
      *   })
      * }
      *
-     * @example <caption>A possible error in a callback</caption>
-     * function cleanup(callback) {
-     *   fs.unlink('/tmp/scratch', (err) => callback(OError.tag(err)))
-     * }
-     *
      * @example <caption>An error with async/await</caption>
      * async function cleanup() {
      *   try {
@@ -30,12 +25,36 @@ declare class OError extends Error {
      *   }
      * }
      *
-     * @param {Error | null | undefined} error the error to tag (no-op if missing)
+     * @param {Error} error the error to tag
+     * @param {string} [message] message with which to tag `error`
+     * @param {Object} [info] extra data with wich to tag `error`
+     * @return {Error} the modified `error` argument
+     */
+    static tag(error: Error, message?: string, info?: any): Error;
+    /**
+     * Like {@link OError.tag}, but if the error is absent, do nothing. This is
+     * useful if a callback is just passing an error up the chain without
+     * checking it.
+     *
+     * @example <caption>A possible error in a callback</caption>
+     * function cleanup(callback) {
+     *   fs.unlink('/tmp/scratch', (err) => callback(OError.tagIfExists(err)))
+     * }
+     *
+     * @param {Error | null | undefined} error the error (if any) to tag
      * @param {string} [message] message with which to tag `error`
      * @param {Object} [info] extra data with wich to tag `error`
      * @return {Error | null | undefined} the modified `error` argument
      */
-    static tag(error: Error, message?: string, info?: any): Error;
+    static tagIfExists(error: Error, message?: string, info?: any): Error;
+    /**
+     * @private
+     * @param {Error} error
+     * @param {string | null | undefined} message
+     * @param {any} info
+     * @param {function} caller
+     */
+    private static _tag;
     /**
      * The merged info from any `tag`s on the given error.
      *
