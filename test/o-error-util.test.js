@@ -188,6 +188,10 @@ describe('OError.tagIfExists', function () {
 })
 
 describe('OError.getFullInfo', function () {
+  it('works when given null', function () {
+    expect(OError.getFullInfo(null)).to.deep.equal({})
+  })
+
   it('works on a normal error', function () {
     const err = new Error('foo')
     expect(OError.getFullInfo(err)).to.deep.equal({})
@@ -229,6 +233,10 @@ describe('OError.getFullInfo', function () {
 })
 
 describe('OError.getFullStack', function () {
+  it('works when given null', function () {
+    expect(OError.getFullStack(null)).to.equal('')
+  })
+
   it('works on a normal error', function () {
     const err = new Error('foo')
     const fullStack = OError.getFullStack(err)
