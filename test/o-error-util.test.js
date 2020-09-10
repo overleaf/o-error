@@ -158,6 +158,28 @@ describe('OError.tag', function () {
     expect(stack).to.match(/TaggedError: test message\n\s+at/)
     expect(stack).to.not.match(/TaggedError: test message\n\s+at [\w.]*tag/)
   })
+
+  describe('without Error.captureStackTrace', function () {
+    /* eslint-disable mocha/no-hooks-for-single-case */
+    before(function () {
+      this.originalCaptureStackTrace = Error.captureStackTrace
+      Error.captureStackTrace = null
+    })
+    after(function () {
+      Error.captureStackTrace = this.originalCaptureStackTrace
+    })
+
+    it('still captures a stack trace, albeit including itself', function () {
+      const err = new Error('test error')
+      OError.tag(err, 'test message')
+      expectFullStackWithoutStackFramesToEqual(err, [
+        'Error: test error',
+        'TaggedError: test message',
+      ])
+      const stack = OError.getFullStack(err)
+      expect(stack).to.match(/TaggedError: test message\n\s+at [\w.]*tag/)
+    })
+  })
 })
 
 describe('OError.getFullInfo', function () {
