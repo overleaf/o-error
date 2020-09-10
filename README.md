@@ -29,7 +29,6 @@ Light-weight helpers for handling JavaScript Errors in node.js and the browser.
   * [oError.withInfo(info) ⇒ this](#oerrorwithinfoinfo--this)
   * [oError.withCause(cause) ⇒ this](#oerrorwithcausecause--this)
   * [OError.tag(error, [message], [info]) ⇒ Error](#oerrortagerror-message-info--error)
-  * [OError.tagIfExists(error, [message], [info]) ⇒ Error \| null \| undefined](#oerrortagifexistserror-message-info--error--null--undefined)
   * [OError.getFullInfo(error) ⇒ Object](#oerrorgetfullinfoerror--object)
   * [OError.getFullStack(error) ⇒ string](#oerrorgetfullstackerror--string)
 - [References](#references)
@@ -345,7 +344,6 @@ caused by:
         * [.withCause(cause)](#OError+withCause) ⇒ <code>this</code>
     * _static_
         * [.tag(error, [message], [info])](#OError.tag) ⇒ <code>Error</code>
-        * [.tagIfExists(error, [message], [info])](#OError.tagIfExists) ⇒ <code>Error</code> \| <code>null</code> \| <code>undefined</code>
         * [.getFullInfo(error)](#OError.getFullInfo) ⇒ <code>Object</code>
         * [.getFullStack(error)](#OError.getFullStack) ⇒ <code>string</code>
 
@@ -405,6 +403,12 @@ function findUser(name, callback) {
   })
 }
 ```
+**Example** *(A possible error in a callback)*  
+```js
+function cleanup(callback) {
+  fs.unlink('/tmp/scratch', (err) => callback(err && OError.tag(err)))
+}
+```
 **Example** *(An error with async/await)*  
 ```js
 async function cleanup() {
@@ -413,28 +417,6 @@ async function cleanup() {
   } catch (err) {
     throw OError.tag(err, 'failed to remove scratch file')
   }
-}
-```
-<a name="OError.tagIfExists"></a>
-
-### OError.tagIfExists(error, [message], [info]) ⇒ <code>Error</code> \| <code>null</code> \| <code>undefined</code>
-Like [tag](#OError.tag), but if the error is absent, do nothing. This is
-useful if a callback is just passing an error up the chain without
-checking it.
-
-**Kind**: static method of [<code>OError</code>](#OError)  
-**Returns**: <code>Error</code> \| <code>null</code> \| <code>undefined</code> - the modified `error` argument  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| error | <code>Error</code> \| <code>null</code> \| <code>undefined</code> | the error (if any) to tag |
-| [message] | <code>string</code> | message with which to tag `error` |
-| [info] | <code>Object</code> | extra data with wich to tag `error` |
-
-**Example** *(A possible error in a callback)*  
-```js
-function cleanup(callback) {
-  fs.unlink('/tmp/scratch', (err) => callback(OError.tagIfExists(err)))
 }
 ```
 <a name="OError.getFullInfo"></a>
