@@ -151,7 +151,7 @@ describe('OError.tag', function () {
   })
 
   it('is not included in the stack trace if using capture', function () {
-    if (!Error.captureStackTrace) return
+    if (!Error.captureStackTrace) return this.skip()
     const err = new Error('test error')
     OError.tag(err, 'test message')
     const stack = OError.getFullStack(err)
