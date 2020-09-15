@@ -18,6 +18,7 @@
     "index.d.ts"
   ],
   "scripts": {
+    "build": "npm run --silent typecheck && npm run --silent test && npm run --silent declaration:build && npm run --silent update-readme",
     "declaration:build": "rm -f index.d.ts && tsc --allowJs --declaration --emitDeclarationOnly --moduleResolution node --target ES6 index.js",
     "declaration:check": "git diff --exit-code -- index.d.ts",
     "lint": "eslint .",
