@@ -86,7 +86,7 @@ class OError extends Error {
 
     if (oError._oErrorTags.length >= OError.maxTags) {
       // Preserve the first tag and add an indicator that we dropped some tags.
-      if (oError._oErrorTags.includes(DROPPED_TAGS_ERROR)) {
+      if (oError._oErrorTags[1] === DROPPED_TAGS_ERROR) {
         oError._oErrorTags.splice(2, 1)
       } else {
         oError._oErrorTags[1] = DROPPED_TAGS_ERROR
