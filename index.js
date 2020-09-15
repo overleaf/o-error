@@ -170,7 +170,11 @@ OError.maxTags = 100
  */
 class TaggedError extends OError {}
 
-const DROPPED_TAGS_ERROR = new TaggedError('... dropped tags')
+const DROPPED_TAGS_ERROR = /** @type{TaggedError} */ ({
+  name: 'TaggedError',
+  message: '... dropped tags',
+  stack: 'TaggedError: ... dropped tags',
+})
 
 /**
  * @private
