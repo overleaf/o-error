@@ -235,19 +235,10 @@ describe('OError.tag', function () {
         helper((err) => callback(err && OError.tag(err, 'in endpoint')))
       }
       function helper(callback) {
-        libraryFunction((err) => {
-          if (err) {
-            OError.tag(err, 'in helper')
-            process.nextTick(function () {
-              callback(err)
-            })
-          }
-        })
+        libraryFunction((err) => callback(err && OError.tag(err, 'in helper')))
       }
       function libraryFunction(callback) {
-        process.nextTick(function () {
-          callback(err)
-        })
+        callback(err)
       }
 
       endpoint(() => {
