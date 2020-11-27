@@ -72,6 +72,15 @@ declare namespace OError {
      */
     export function getFullInfo(error: Error): any;
     /**
+     * The merged info from any `tag`s and nested causes on the given error.
+     *
+     * See also `OError.getFullInfo`.
+     *
+     * @param {Error | null | undefined} error any error (may or may not be an `OError`)
+     * @return {Object}
+     */
+    export function getFullInfoIncludeCause(error: Error): any;
+    /**
      * Return the `stack` property from `error`, including the `stack`s for any
      * tagged errors added with `OError.tag` and for any `cause`s.
      *

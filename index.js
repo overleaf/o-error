@@ -124,6 +124,25 @@ class OError extends Error {
   }
 
   /**
+   * The merged info from any `tag`s and nested causes on the given error.
+   *
+   * See also `OError.getFullInfo`.
+   *
+   * @param {Error | null | undefined} error any error (may or may not be an `OError`)
+   * @return {Object}
+   */
+  static getFullInfoIncludeCause(error) {
+    const info = OError.getFullInfo(error)
+    if (!error) return info
+
+    const oError = /** @type{OError} */ (error)
+    if (oError.cause) {
+      Object.assign(info, OError.getFullInfoIncludeCause(oError.cause))
+    }
+    return info
+  }
+
+  /**
    * Return the `stack` property from `error`, including the `stack`s for any
    * tagged errors added with `OError.tag` and for any `cause`s.
    *
