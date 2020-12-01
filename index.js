@@ -98,11 +98,11 @@ class OError extends Error {
   }
 
   /**
-   * The merged info from any `tag`s on the given error.
+   * The merged info from any `tag`s and causes on the given error.
    *
    * If an info property is repeated, the last one wins.
    *
-   * @param {Error | null | undefined} error any errror (may or may not be an `OError`)
+   * @param {Error | null | undefined} error any error (may or may not be an `OError`)
    * @return {Object}
    */
   static getFullInfo(error) {
@@ -113,6 +113,10 @@ class OError extends Error {
     const oError = /** @type{OError} */ (error)
 
     if (typeof oError.info === 'object') Object.assign(info, oError.info)
+
+    if (oError.cause) {
+      Object.assign(info, OError.getFullInfo(oError.cause))
+    }
 
     if (oError._oErrorTags) {
       for (const tag of oError._oErrorTags) {
