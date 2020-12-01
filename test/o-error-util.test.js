@@ -304,6 +304,18 @@ describe('OError.getFullInfo', function () {
     })
   })
 
+  it('merges info from cause with duplicate keys', function () {
+    const err1 = new Error('foo')
+    const err2 = new Error('bar')
+    err1.info = { userId: 42, foo: 1337 }
+    err1.cause = err2
+    err2.info = { userId: 1 }
+    expect(OError.getFullInfo(err1)).to.deep.equal({
+      userId: 42,
+      foo: 1337,
+    })
+  })
+
   it('merges info from tags with duplicate keys', function () {
     const err1 = OError.tag(new Error('foo'), 'bar', { userId: 123 })
     const err2 = OError.tag(err1, 'bat', { userId: 456 })

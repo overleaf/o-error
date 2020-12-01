@@ -112,11 +112,9 @@ class OError extends Error {
 
     const oError = /** @type{OError} */ (error)
 
-    if (typeof oError.info === 'object') Object.assign(info, oError.info)
+    if (oError.cause) Object.assign(info, OError.getFullInfo(oError.cause))
 
-    if (oError.cause) {
-      Object.assign(info, OError.getFullInfo(oError.cause))
-    }
+    if (typeof oError.info === 'object') Object.assign(info, oError.info)
 
     if (oError._oErrorTags) {
       for (const tag of oError._oErrorTags) {
