@@ -303,65 +303,6 @@ describe('OError.getFullInfo', function () {
   })
 })
 
-describe('OError.getFullInfoIncludeCause', function () {
-  it('works when given null', function () {
-    expect(OError.getFullInfoIncludeCause(null)).to.deep.equal({})
-  })
-
-  it('works on a normal error', function () {
-    const err = new Error('foo')
-    expect(OError.getFullInfoIncludeCause(err)).to.deep.equal({})
-  })
-
-  it('works on an error with tags', function () {
-    const err = OError.tag(new Error('foo'), 'bar', { userId: 123 })
-    expect(OError.getFullInfoIncludeCause(err)).to.deep.equal({ userId: 123 })
-  })
-
-  it('merges info from an error and its tags', function () {
-    const err = new OError('foo').withInfo({ projectId: 456 })
-    OError.tag(err, 'failed to foo', { userId: 123 })
-    expect(OError.getFullInfoIncludeCause(err)).to.deep.equal({
-      projectId: 456,
-      userId: 123,
-    })
-  })
-
-  it('merges info from a cause', function () {
-    const err1 = new Error('foo')
-    const err2 = new Error('bar')
-    err1.cause = err2
-    err2.info = { userId: 123 }
-    expect(OError.getFullInfoIncludeCause(err1)).to.deep.equal({ userId: 123 })
-  })
-
-  it('merges info from a nested cause', function () {
-    const err1 = new Error('foo')
-    const err2 = new Error('bar')
-    const err3 = new Error('bar')
-    err1.cause = err2
-    err2.info = { userId: 123 }
-    err2.cause = err3
-    err3.info = { foo: 42 }
-    expect(OError.getFullInfoIncludeCause(err1)).to.deep.equal({
-      userId: 123,
-      foo: 42,
-    })
-  })
-
-  it('merges info from tags with duplicate keys', function () {
-    const err1 = OError.tag(new Error('foo'), 'bar', { userId: 123 })
-    const err2 = OError.tag(err1, 'bat', { userId: 456 })
-    expect(OError.getFullInfoIncludeCause(err2)).to.deep.equal({ userId: 456 })
-  })
-
-  it('works on an error with .info set to a string', function () {
-    const err = new Error('foo')
-    err.info = 'test'
-    expect(OError.getFullInfoIncludeCause(err)).to.deep.equal({})
-  })
-})
-
 describe('OError.getFullStack', function () {
   it('works when given null', function () {
     expect(OError.getFullStack(null)).to.equal('')

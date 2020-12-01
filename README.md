@@ -32,7 +32,6 @@ Light-weight helpers for handling JavaScript Errors in node.js and the browser.
   * [OError.maxTags : Number](#oerrormaxtags--number)
   * [OError.tag(error, [message], [info]) ⇒ Error](#oerrortagerror-message-info--error)
   * [OError.getFullInfo(error) ⇒ Object](#oerrorgetfullinfoerror--object)
-  * [OError.getFullInfoIncludeCause(error) ⇒ Object](#oerrorgetfullinfoincludecauseerror--object)
   * [OError.getFullStack(error) ⇒ string](#oerrorgetfullstackerror--string)
 - [References](#references)
 
@@ -355,7 +354,6 @@ caused by:
         * [.maxTags](#OError.maxTags) : <code>Number</code>
         * [.tag(error, [message], [info])](#OError.tag) ⇒ <code>Error</code>
         * [.getFullInfo(error)](#OError.getFullInfo) ⇒ <code>Object</code>
-        * [.getFullInfoIncludeCause(error)](#OError.getFullInfoIncludeCause) ⇒ <code>Object</code>
         * [.getFullStack(error)](#OError.getFullStack) ⇒ <code>string</code>
 
 <a name="new_OError_new"></a>
@@ -453,19 +451,6 @@ If an info property is repeated, the last one wins.
 | Param | Type | Description |
 | --- | --- | --- |
 | error | <code>Error</code> \| <code>null</code> \| <code>undefined</code> | any errror (may or may not be an `OError`) |
-
-<a name="OError.getFullInfoIncludeCause"></a>
-
-### OError.getFullInfoIncludeCause(error) ⇒ <code>Object</code>
-The merged info from any `tag`s and nested causes on the given error.
-
-See also `OError.getFullInfo`.
-
-**Kind**: static method of [<code>OError</code>](#OError)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| error | <code>Error</code> \| <code>null</code> \| <code>undefined</code> | any error (may or may not be an `OError`) |
 
 <a name="OError.getFullStack"></a>
 
