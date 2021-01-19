@@ -32,6 +32,9 @@
   "license": "MIT",
   "repository": "github:overleaf/o-error",
   "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
     "@types/chai": "^4.2.12",
     "@types/node": "^13.13.2",
     "chai": "^3.3.0",
