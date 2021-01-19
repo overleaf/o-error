@@ -12,10 +12,10 @@
     "cause",
     "verror"
   ],
-  "main": "index.js",
+  "main": "dist/index.js",
   "files": [
-    "index.js",
-    "index.d.ts"
+    "dist/index.js",
+    "dist/index.d.ts"
   ],
   "scripts": {
     "clean": "rm -rf dist",
