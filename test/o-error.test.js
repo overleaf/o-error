@@ -9,12 +9,16 @@ const {
 class CustomError1 extends OError {
   constructor() {
     super('failed to foo')
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.name = this.constructor.name
   }
 }
 
 class CustomError2 extends OError {
   constructor(customMessage) {
     super(customMessage || 'failed to bar')
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.name = this.constructor.name
   }
 }
 

@@ -40,9 +40,11 @@ exports.expectError = function OErrorExpectError(e, expected) {
   ).to.match(new RegExp(`^${expected.name}:`))
 
   expect(
-    /** @type {string} */ (e.stack).split('\n')[1],
+    /** @type {string} */ (e.stack)
+      .split('\n')
+      .some((line) => line.match(expected.firstFrameRx)),
     'first stack frame should be the function where the error was thrown'
-  ).to.match(expected.firstFrameRx)
+  ).to.be.true
 }
 
 /**

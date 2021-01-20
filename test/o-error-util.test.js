@@ -176,8 +176,10 @@ describe('OError.tag', function () {
         'Error: test error',
         'TaggedError: test message',
       ])
-      const stack = OError.getFullStack(err)
-      expect(stack).to.match(/TaggedError: test message\n\s+at [\w.]*tag/)
+      const stack = OError.getFullStack(err).split('\n')
+      expect(stack.some((line) => line === 'TaggedError: test message')).to.be
+        .true
+      expect(stack.some((line) => line.match(/at [\w.]*tag/))).to.be.true
     })
   })
 

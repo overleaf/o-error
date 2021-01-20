@@ -10,7 +10,9 @@ class OError extends Error {
    */
   constructor(message, info, cause) {
     super(message)
+    Object.setPrototypeOf(this, new.target.prototype)
     this.name = this.constructor.name
+
     if (info) this.info = info
     if (cause) this.cause = cause
     /** @private @type {Array<TaggedError> | undefined} */
@@ -170,7 +172,18 @@ OError.maxTags = 100
  * @private
  * @extends OError
  */
-class TaggedError extends OError {}
+class TaggedError extends OError {
+  /**
+   * @param {string} message as for built-in Error
+   * @param {Object} [info] extra data to attach to the error
+   * @param {Error} [cause] the internal error that caused this error
+   */
+  constructor(message, info, cause) {
+    super(message, info, cause)
+    Object.setPrototypeOf(this, new.target.prototype)
+    this.name = this.constructor.name
+  }
+}
 
 const DROPPED_TAGS_ERROR = /** @type{TaggedError} */ ({
   name: 'TaggedError',
