@@ -1,3 +1,7 @@
+⚠️ This repository has been migrated into [`overleaf/overleaf`](https://github.com/overleaf/overleaf). See the [monorepo announcement](https://github.com/overleaf/overleaf/issues/923) for more info. ⚠️
+
+---
+
 # @overleaf/o-error
 
 [![npm version](https://badge.fury.io/js/%40overleaf%2Fo-error.svg)](https://badge.fury.io/js/%40overleaf%2Fo-error)
